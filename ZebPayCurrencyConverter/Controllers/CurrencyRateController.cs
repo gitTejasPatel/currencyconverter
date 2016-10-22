@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Timers;
 using System.Web.Mvc;
+using ZebPayCurrencyConverter.Common;
 
 namespace ZebPayCurrencyConverter.Controllers
 {
@@ -19,13 +20,20 @@ namespace ZebPayCurrencyConverter.Controllers
         decimal latestCurrencyRate = 0.0M; 
         string googleUrl = ConfigurationManager.AppSettings["GoogleCurrencyConvertUrl"].ToString(), postData = "", toCurrency = "INR";
         Int32 amount = 1;
+        Utility utl = new Utility();
         #endregion
         // GET: CurrencyRate
         public ActionResult CurrencyRate()
         {
-            
-            var getDestinationCountry = st.ssz_country.Where(z => z.zcountry_id != 1).ToList();
-            ViewBag.destinationCountry = getDestinationCountry;
+            try
+            {
+                var getDestinationCountry = st.ssz_country.Where(z => z.zcountry_id != 1).ToList();
+                ViewBag.destinationCountry = getDestinationCountry;
+            }
+            catch (Exception ex)
+            {
+                utl.LogWebError("CurrencyRate", "CurrencyRate", ex.Message);
+            }
             return View();
         }
 
@@ -48,6 +56,7 @@ namespace ZebPayCurrencyConverter.Controllers
             }
             catch (Exception ex)
             {
+                utl.LogWebError("CurrencyRate", "GetRate", ex.Message);
                 return Json("#Error");
             }
         }
@@ -58,9 +67,14 @@ namespace ZebPayCurrencyConverter.Controllers
         /// </summary>
         public void GetConversionRateTimer()
         {
-            Timer timer = new Timer((60000 * 60 * 4)); // every 4 hours 
-            timer.Elapsed += GetConversionRate;
-            timer.Start();
+            try
+            {
+                Timer timer = new Timer((60000 * 60 * 4)); // every 4 hours 
+                timer.Elapsed += GetConversionRate;
+                timer.Start();
+            }
+            catch (Exception ex)
+            { utl.LogWebError("CurrencyRate", "GetConversionRateTimer", ex.Message); }
         }
         /// <summary>
         /// GetConversionRate
@@ -81,6 +95,7 @@ namespace ZebPayCurrencyConverter.Controllers
             }
             catch (Exception ex)
             {
+                utl.LogWebError("CurrencyRate", "GetConversionRate", ex.Message);
             }
         }
 
@@ -125,6 +140,7 @@ namespace ZebPayCurrencyConverter.Controllers
             }
             catch (Exception ex)
             {
+                utl.LogWebError("CurrencyRate", "HttpPostRequest", ex.Message);
                 return 0.0m;
             }
         }
@@ -148,7 +164,7 @@ namespace ZebPayCurrencyConverter.Controllers
                 }
             }
             catch (Exception ex)
-            { }
+            { utl.LogWebError("CurrencyRate", "InsertExchangeRate", ex.Message); }
         }
 
         #endregion

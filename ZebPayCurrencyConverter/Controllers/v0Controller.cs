@@ -1,11 +1,10 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
-using System.Configuration;
-using System.IO;
 using System.Linq;
 using System.Web.Http;
 using System.Web.Script.Serialization;
+using ZebPayCurrencyConverter.Common;
 
 namespace ZebPayCurrencyConverter.Controllers
 {
@@ -17,10 +16,11 @@ namespace ZebPayCurrencyConverter.Controllers
         dynamic dataList,totalAmount = 0.0m, conversionRateExist = 0.0M;
         SendJsonResponse jsonCurrConvertResponse;
         CurrencyInfo getInfo;
+        Utility utl = new Utility();
         #endregion
 
         #region "methods"
-        
+
         [System.Web.Http.HttpPost]
         public IEnumerable rate(JObject currencyContent)
         {
@@ -49,7 +49,7 @@ namespace ZebPayCurrencyConverter.Controllers
                 return jsContentDetails.Serialize(jsonCurrConvertResponse);
             }
             catch (Exception ex)
-            {
+            {   
                 jsonCurrConvertResponse.SourceCurrency = getInfo.fromCurrencyCode;
                 jsonCurrConvertResponse.ConversionRate = conversionRateExist;
                 jsonCurrConvertResponse.Amount = getInfo.currencyAmount;
@@ -57,7 +57,8 @@ namespace ZebPayCurrencyConverter.Controllers
                 jsonCurrConvertResponse.returncode = 0;
                 jsonCurrConvertResponse.err = "failure";
                 jsonCurrConvertResponse.timestamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
-                return jsContentDetails.Serialize(jsonCurrConvertResponse); ;
+                utl.LogWebError("v0", "rate", ex.Message);
+                return jsContentDetails.Serialize(jsonCurrConvertResponse);
             }
         }
 
@@ -79,7 +80,7 @@ namespace ZebPayCurrencyConverter.Controllers
                     return 0.0M;
             }
             catch (Exception ex)
-            { return 0.0M; }
+            { utl.LogWebError("v0", "rate", ex.Message); return 0.0M; }
         }
 
         /// <summary>
@@ -99,6 +100,7 @@ namespace ZebPayCurrencyConverter.Controllers
             }
             catch (Exception ex)
             {
+                utl.LogWebError("v0", "rate", ex.Message);
                 return 0.0m;
             }
         }
