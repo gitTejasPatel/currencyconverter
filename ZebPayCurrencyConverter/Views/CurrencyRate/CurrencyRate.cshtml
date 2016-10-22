@@ -1,0 +1,91 @@
+﻿
+@{
+    ViewBag.Title = "CurrencyRate";
+}
+
+<div class="container">
+    <h2 class="text-center" style="margin-bottom:20px;">CurrencyRate</h2>
+    <div class="col-lg-8 col-lg-offset-4">
+        <div class="row form-group">
+            <div class="col-lg-3 col-md-3 text-right">
+                <label for="test" style="margin-top:5px;">
+                    Source Country :
+                </label>
+            </div>
+            <div class="col-lg-6 col-md-6">
+                <select id="ddlSourceCountry" name="country_id" class="selectDropDown txtOpenRegular txtlightBlack" style="width:100%;height:30px;">
+                    <option selected="selected" value="1">INR</option>
+                </select>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-lg-3 col-md-3 text-right">
+                <label for="test" style="margin-top:5px;">
+                    Amount :
+                </label>
+            </div>
+            <div class="col-lg-6 col-md-6">
+                <input type="text" id="txtAmount" value="1" class="form-control" style="height:30px;border-radius:0;" onkeypress="return CheckNumber(event);"/>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-lg-3 col-md-3 text-right">
+                <label for="destinationCountry" style="margin-top:5px;">
+                    Destination country :
+                </label>
+            </div>
+            <div class="col-lg-6 col-md-6">
+                <select id="ddlDestinationCountry" style="width:100%;height:30px;">
+                    @foreach (var item in ViewBag.destinationCountry)
+                    {
+                        <option value="@item.zcountry_id">@item.zcountry_currency_code</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="text-right col-lg-8" style="padding:0 10px;">
+            <input type="button" value="Submit" id="btnSubmit" />
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row form-group" id="ddlJsonResponse"></div>
+</div>
+@section Scripts
+{
+    <script type="text/javascript">
+        $("#btnSubmit").click(function () {
+            if ($("#txtAmount").val().length == 0 || $("#txtAmount").val() == 0)
+                $("#txtAmount").val(1);
+            urlControllerAction = '/CurrencyRate/GetRate';
+            $.ajax({
+                url: urlControllerAction,
+                type: 'GET',
+                data: {currencyCode: $("#ddlDestinationCountry").find(':selected').text(),
+                       amount: $("#txtAmount").val()
+                },
+                beforeSend: function () { $("#btnSubmit").attr('disabled', true); $("#ddlJsonResponse").val(''); },
+                success: function (data) {
+                    $("#ddlJsonResponse").html(JSON.parse(data));
+                },
+                error: function () { $("input[type='text']").val(''); },
+                complete: function () { $("#btnSubmit").attr('disabled', false); }
+            });
+        });
+
+        //Check Number only function.
+        function CheckNumber(evt) {
+            var code = (evt.keyCode ? evt.keyCode : evt.which);
+
+            var chCode = ('charCode' in evt) ? evt.charCode : evt.keyCode;
+            if ((code == 13) || (code >= 48 && code <= 57) || (code == 8) || (code == 9) || (code == 12) || (code == 27) || (code == 46)) {
+                if ((code != 17) || (code != 2)) return true;
+            }
+            if (evt.ctrlKey && (evt.which == 86 || evt.which == 118)) return true;
+            if (((code == 37) && (!evt.shiftKey)) || (code == 39 && chCode != 39) || (code == 46 && chCode != 46) || (evt.ctrlKey && evt.which == 99)) return true;
+            return false;
+        }
+    </script>
+}
+

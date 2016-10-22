@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="SolsenTestModelStoreContainer" CdmEntityContainer="SolsenTestEntities">
+    <EntitySetMapping Name="ssz_country">
+      <EntityTypeMapping TypeName="SolsenTestModel.ssz_country">
+        <MappingFragment StoreEntitySet="ssz_country">
+          <ScalarProperty Name="zcountry_id" ColumnName="zcountry_id" />
+          <ScalarProperty Name="zcountry_name" ColumnName="zcountry_name" />
+          <ScalarProperty Name="zcountry_currency_code" ColumnName="zcountry_currency_code" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ssz_exchange_rate">
+      <EntityTypeMapping TypeName="SolsenTestModel.ssz_exchange_rate">
+        <MappingFragment StoreEntitySet="ssz_exchange_rate">
+          <ScalarProperty Name="exchange_rate_id" ColumnName="exchange_rate_id" />
+          <ScalarProperty Name="zcountry_id" ColumnName="zcountry_id" />
+          <ScalarProperty Name="exchange_rate_amount" ColumnName="exchange_rate_amount" />
+          <ScalarProperty Name="exchange_date" ColumnName="exchange_date" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

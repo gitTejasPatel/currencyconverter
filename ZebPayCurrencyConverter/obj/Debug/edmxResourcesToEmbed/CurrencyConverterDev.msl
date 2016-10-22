@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="CurrencyConverterModelStoreContainer" CdmEntityContainer="CurrencyConverterEntities">
+    <EntitySetMapping Name="ssz_country">
+      <EntityTypeMapping TypeName="CurrencyConverterModel.ssz_country">
+        <MappingFragment StoreEntitySet="ssz_country">
+          <ScalarProperty Name="zcountry_id" ColumnName="zcountry_id" />
+          <ScalarProperty Name="zcountry_name" ColumnName="zcountry_name" />
+          <ScalarProperty Name="zcountry_currency_code" ColumnName="zcountry_currency_code" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ssz_error_log">
+      <EntityTypeMapping TypeName="CurrencyConverterModel.ssz_error_log">
+        <MappingFragment StoreEntitySet="ssz_error_log">
+          <ScalarProperty Name="error_log_id" ColumnName="error_log_id" />
+          <ScalarProperty Name="controller_name" ColumnName="controller_name" />
+          <ScalarProperty Name="page_api_name" ColumnName="page_api_name" />
+          <ScalarProperty Name="action_Name" ColumnName="action_Name" />
+          <ScalarProperty Name="error_msg" ColumnName="error_msg" />
+          <ScalarProperty Name="date_of_occurence" ColumnName="date_of_occurence" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ssz_exchange_rate">
+      <EntityTypeMapping TypeName="CurrencyConverterModel.ssz_exchange_rate">
+        <MappingFragment StoreEntitySet="ssz_exchange_rate">
+          <ScalarProperty Name="exchange_rate_id" ColumnName="exchange_rate_id" />
+          <ScalarProperty Name="zcountry_id" ColumnName="zcountry_id" />
+          <ScalarProperty Name="exchange_rate_amount" ColumnName="exchange_rate_amount" />
+          <ScalarProperty Name="exchange_date" ColumnName="exchange_date" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CurrencyConverterModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="ssz_country">
+    <Key>
+      <PropertyRef Name="zcountry_id" />
+    </Key>
+    <Property Name="zcountry_id" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="zcountry_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="zcountry_currency_code" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="ssz_exchange_rate" Relationship="Self.fk_zcountry_id" FromRole="ssz_country" ToRole="ssz_exchange_rate" />
+  </EntityType>
+  <EntityType Name="ssz_error_log">
+    <Key>
+      <PropertyRef Name="error_log_id" />
+    </Key>
+    <Property Name="error_log_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="controller_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="page_api_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="action_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="error_msg" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="date_of_occurence" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="ssz_exchange_rate">
+    <Key>
+      <PropertyRef Name="exchange_rate_id" />
+    </Key>
+    <Property Name="exchange_rate_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="zcountry_id" Type="Byte" />
+    <Property Name="exchange_rate_amount" Type="Decimal" Precision="5" Scale="2" />
+    <Property Name="exchange_date" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="ssz_country" Relationship="Self.fk_zcountry_id" FromRole="ssz_exchange_rate" ToRole="ssz_country" />
+    <NavigationProperty Name="ssz_exchange_rate1" Relationship="Self.FK_ssz_exchange_rate_ssz_exchange_rate" FromRole="ssz_exchange_rate" ToRole="ssz_exchange_rate1" />
+    <NavigationProperty Name="ssz_exchange_rate2" Relationship="Self.FK_ssz_exchange_rate_ssz_exchange_rate" FromRole="ssz_exchange_rate1" ToRole="ssz_exchange_rate" />
+  </EntityType>
+  <Association Name="fk_zcountry_id">
+    <End Role="ssz_country" Type="Self.ssz_country" Multiplicity="0..1" />
+    <End Role="ssz_exchange_rate" Type="Self.ssz_exchange_rate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ssz_country">
+        <PropertyRef Name="zcountry_id" />
+      </Principal>
+      <Dependent Role="ssz_exchange_rate">
+        <PropertyRef Name="zcountry_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ssz_exchange_rate_ssz_exchange_rate">
+    <End Role="ssz_exchange_rate" Type="Self.ssz_exchange_rate" Multiplicity="1" />
+    <End Role="ssz_exchange_rate1" Type="Self.ssz_exchange_rate" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="ssz_exchange_rate">
+        <PropertyRef Name="exchange_rate_id" />
+      </Principal>
+      <Dependent Role="ssz_exchange_rate1">
+        <PropertyRef Name="exchange_rate_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="CurrencyConverterEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="ssz_country" EntityType="Self.ssz_country" />
+    <EntitySet Name="ssz_error_log" EntityType="Self.ssz_error_log" />
+    <EntitySet Name="ssz_exchange_rate" EntityType="Self.ssz_exchange_rate" />
+    <AssociationSet Name="fk_zcountry_id" Association="Self.fk_zcountry_id">
+      <End Role="ssz_country" EntitySet="ssz_country" />
+      <End Role="ssz_exchange_rate" EntitySet="ssz_exchange_rate" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ssz_exchange_rate_ssz_exchange_rate" Association="Self.FK_ssz_exchange_rate_ssz_exchange_rate">
+      <End Role="ssz_exchange_rate" EntitySet="ssz_exchange_rate" />
+      <End Role="ssz_exchange_rate1" EntitySet="ssz_exchange_rate" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

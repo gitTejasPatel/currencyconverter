@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CurrencyConverter", "ZebPayCurrencyConverter\CurrencyConverter.csproj", "{AEBA288C-38E0-471E-8D6C-CE54B536F7CE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AEBA288C-38E0-471E-8D6C-CE54B536F7CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEBA288C-38E0-471E-8D6C-CE54B536F7CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEBA288C-38E0-471E-8D6C-CE54B536F7CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEBA288C-38E0-471E-8D6C-CE54B536F7CE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

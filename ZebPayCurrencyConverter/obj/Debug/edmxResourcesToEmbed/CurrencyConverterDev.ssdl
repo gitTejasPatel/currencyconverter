@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CurrencyConverterModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="ssz_country">
+    <Key>
+      <PropertyRef Name="zcountry_id" />
+    </Key>
+    <Property Name="zcountry_id" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="zcountry_name" Type="nvarchar" MaxLength="50" />
+    <Property Name="zcountry_currency_code" Type="nvarchar" MaxLength="4" />
+  </EntityType>
+  <EntityType Name="ssz_error_log">
+    <Key>
+      <PropertyRef Name="error_log_id" />
+    </Key>
+    <Property Name="error_log_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="controller_name" Type="nvarchar" MaxLength="50" />
+    <Property Name="page_api_name" Type="nvarchar" MaxLength="50" />
+    <Property Name="action_Name" Type="nvarchar" MaxLength="50" />
+    <Property Name="error_msg" Type="nvarchar(max)" />
+    <Property Name="date_of_occurence" Type="datetime" />
+  </EntityType>
+  <EntityType Name="ssz_exchange_rate">
+    <Key>
+      <PropertyRef Name="exchange_rate_id" />
+    </Key>
+    <Property Name="exchange_rate_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="zcountry_id" Type="tinyint" />
+    <Property Name="exchange_rate_amount" Type="decimal" Precision="5" Scale="2" />
+    <Property Name="exchange_date" Type="datetime" />
+  </EntityType>
+  <Association Name="FK_ssz_exchange_rate_ssz_exchange_rate">
+    <End Role="ssz_exchange_rate" Type="Self.ssz_exchange_rate" Multiplicity="1" />
+    <End Role="ssz_exchange_rate1" Type="Self.ssz_exchange_rate" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="ssz_exchange_rate">
+        <PropertyRef Name="exchange_rate_id" />
+      </Principal>
+      <Dependent Role="ssz_exchange_rate1">
+        <PropertyRef Name="exchange_rate_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_zcountry_id">
+    <End Role="ssz_country" Type="Self.ssz_country" Multiplicity="0..1" />
+    <End Role="ssz_exchange_rate" Type="Self.ssz_exchange_rate" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ssz_country">
+        <PropertyRef Name="zcountry_id" />
+      </Principal>
+      <Dependent Role="ssz_exchange_rate">
+        <PropertyRef Name="zcountry_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="CurrencyConverterModelStoreContainer">
+    <EntitySet Name="ssz_country" EntityType="Self.ssz_country" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ssz_error_log" EntityType="Self.ssz_error_log" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ssz_exchange_rate" EntityType="Self.ssz_exchange_rate" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_ssz_exchange_rate_ssz_exchange_rate" Association="Self.FK_ssz_exchange_rate_ssz_exchange_rate">
+      <End Role="ssz_exchange_rate" EntitySet="ssz_exchange_rate" />
+      <End Role="ssz_exchange_rate1" EntitySet="ssz_exchange_rate" />
+    </AssociationSet>
+    <AssociationSet Name="fk_zcountry_id" Association="Self.fk_zcountry_id">
+      <End Role="ssz_country" EntitySet="ssz_country" />
+      <End Role="ssz_exchange_rate" EntitySet="ssz_exchange_rate" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
